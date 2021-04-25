@@ -27,9 +27,12 @@ public class Login implements ActionListener {
 	private static JButton CreateAccount;
 	private static JLabel LoginSuccessful;
 	
+	//private static PostgresAccounts pAccount = new PostgresAccounts();
 
 	public static void main(String[] args) {
-		ImageIcon image= new ImageIcon("sss.png"); //setting an image 
+		ImageIcon image= new ImageIcon
+				("C:\\Users\\Sal\\eclipse-workspace\\GUI\\src\\Accounts\\ss.png"); //setting an image 
+		//Change and copy the image path on C
 		
 		JPanel panel= new JPanel();
 		frame= new JFrame();
@@ -42,11 +45,9 @@ public class Login implements ActionListener {
 		panel.add(title);
 		title.setFont(new Font( null, Font.BOLD,60));
 		title.setForeground(Color.white);
-		
+
 		panel.setLayout(null);
-		//
 	
-		
 		//
 		
 		useNameLabel = new JLabel(" User Name:");
@@ -86,11 +87,11 @@ public class Login implements ActionListener {
 		LoginSuccessful.setBounds(650, 340, 300, 20);
 		panel.add(LoginSuccessful);
 		//
-		
+	
 		JLabel img= new JLabel();
-		img.setBounds(0, 0, 1200, 850);
 		img.setIcon(image);
 		panel.add(img);
+		img.setBounds(0, 0, 1200, 850);
 		
 		JLabel backgrounnd = new JLabel(); 
 		backgrounnd.setOpaque(true);
@@ -117,7 +118,8 @@ public void actionPerformed(ActionEvent e) {
 	
 	
 	if (e.getSource()== LoginButton) {
-			if (user.equals("boo") && password.equals("boos")) {
+	//	if (pAccount.accountExists(user) && pAccount.getAccount(user).getPassword().equals(password)) {
+		if (user.equals("boo") && password.equals("1234")) {
 		JOptionPane.showMessageDialog(null, "Login Successful", "Login", JOptionPane.PLAIN_MESSAGE );
 		frame.dispose();
 			
@@ -127,5 +129,3 @@ public void actionPerformed(ActionEvent e) {
 	}
 }
 	}
-
-
