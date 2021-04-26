@@ -18,6 +18,9 @@ public class Driver {
 	
 	private static Object syncObject = new Object();
 	private static String currentAccountUsername;
+	public static ArrayList<Item> shoppingCart = new ArrayList<Item>();
+	
+	private static PostgresPending pPending = new PostgresPending();
 	
 	private static int choice = 0;
 	
@@ -31,44 +34,42 @@ public class Driver {
 		
 		login.addPanel(frame);
 		
-		while (choice != 6) {
+		do {
 			sleep();
 			switch (choice) {
 				case 0:
-					//frame.removeAll();
 					login.addPanel(frame);
 					refresh();
 					break;
 				case 1:
-					//frame.removeAll();
 					createActCust.addPanel(frame);
 					refresh();
 					break;
 				case 2: 
-					//frame.removeAll();
 					createActEmpl.addPanel(frame);
 					refresh();
 					break;
 				case 3:
-					//frame.removeAll();
 					shopping.addPanel(frame);
 					refresh();
-					System.out.println("You should be seeing shopping now");
 					break;
 				case 4:
-					//frame.removeAll();
 					manager.addPanel(frame);
 					refresh();
 					break;
 				case 5:
-					//frame.removeAll();
 					pending.addPanel(frame);
 					refresh();
 					break;
 				case 6:
+					pPending.addPending(currentAccountUsername, 1, shoppingCart);
+					currentAccountUsername = "";
+					shoppingCart.clear();
+					login.addPanel(frame);
+					refresh();
 					break;
 			}
-		}
+		}  while (choice != 6);
 	}
 	
 	
@@ -110,6 +111,9 @@ public class Driver {
 			case 5:
 				pending.removePanel(frame);
 				break;
+			case 6:
+				login.removePanel(frame);
+				break;
 		}
 		choice = newChoice;
 		wake();
@@ -117,6 +121,10 @@ public class Driver {
 	
 	public static void setCurrentAccount (String username) {
 		currentAccountUsername = username;
+	}
+	
+	public static String getCurrentAccount () {
+		return currentAccountUsername;
 	}
 	
 	public static void refresh() {
