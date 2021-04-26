@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 
 import Accounts.Login;
 
+import main.Driver;
+
 import DB.Item;
 import DB.PostgresAccounts;
 import DB.PostgresInventory;
@@ -122,11 +124,11 @@ public class ShoppingPage implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Your order for x items ($y) was completed successfully.", "Order Successful", JOptionPane.DEFAULT_OPTION);
 		}
 		if(e.getSource() == logout) { // Log out the user
-			Login.main(new String[1]);
+			Driver.newChoice(0);;
 		}
 		if(e.getSource() == search) {
 			Driver.newChoice(3);
-			sp.itemDisplay();
+			//sp.itemDisplay();
 		}
 	}
 }
