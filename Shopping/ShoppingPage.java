@@ -26,7 +26,7 @@ public class ShoppingPage implements ActionListener {
 
 	private PostgresInventory pi = new PostgresInventory();
 	
-	private JPanel panel;
+	private JPanel panel = new JPanel();
 	private JButton checkout, logout, search;
 	private JComboBox choice;
 	private JTextField searchBar,
@@ -34,8 +34,6 @@ public class ShoppingPage implements ActionListener {
 	private JScrollPane scrollPane;
 	
 	public ShoppingPage() {
-		panel= new JPanel();
-
 		JLabel title = new JLabel("Shopping Page");
 		title.setBounds(375, 10, 1200, 100);
 		panel.add(title);
