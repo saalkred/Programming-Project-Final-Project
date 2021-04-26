@@ -100,7 +100,7 @@ public class ItemManager implements ActionListener {
 		//when JButton confirm, then 
 		Item deleteItem = new Item(title, price, description, stock);//TODO: need to add function to make title, price, desc and stock fill in with user input
 		String itemTitle = deleteItem.getTitle();
-		inventory.itemTitle(newItem); //TODO: unsure of how to fix this error
+		inventory.deleteItem(itemTitle); //TODO: unsure of how to fix this error
 		
 	}
 
