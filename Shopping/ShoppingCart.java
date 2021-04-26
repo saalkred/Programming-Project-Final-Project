@@ -1,20 +1,42 @@
 package Shopping;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class ShoppingCart implements ActionListener {
+import DB.Item;
 
+public class ShoppingCart {
+
+	private ArrayList<Item> al;
+	
 	public ShoppingCart() {
-
+		al = new ArrayList<>();
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-		
-		
+	public int getQuantity(Item item) {
+		int count = 0;
+		for(int i = 0; i < al.size(); i++) {
+			if(al.get(i) == item) {
+				count++;
+			}
+		}
+		return count;
 	}
-
+	
+	public double getTotal() {
+		double totalPrice = 0;
+		for(int i = 0; i < al.size(); i++) {
+			totalPrice += al.get(i).getPrice();
+		}
+		return totalPrice;
+	}
+	
+	public void addItem(Item item, int quantity) {
+		for(int i = 0; i < quantity; i++) {
+			al.add(item);
+		}
+	}
+	
+	public void removeItem(Item item) {
+		al.remove(item);
+	}
 }
