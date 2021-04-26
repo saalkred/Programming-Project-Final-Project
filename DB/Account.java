@@ -1,7 +1,5 @@
 package DB;
 
-import java.util.ArrayList;
-
 public class Account {
 	private int type;
 	private String name;
@@ -11,6 +9,15 @@ public class Account {
 	private String address;
 	
 	public Account (int type, String name, String username, String password, String email, String address) {
+		this.type = type;
+		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.address = address;
+	}
+	
+	public Account (int type, String name, String username, String password, String email) {
 		this.type = type;
 		this.name = name;
 		this.username = username;
