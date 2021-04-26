@@ -1,5 +1,6 @@
 package Shopping;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,11 +18,13 @@ import DB.Item;
 import DB.PostgresAccounts;
 import main.Driver;
 import DB.PostgresPending;
+import gui.BankAccount;
+import gui.BankPanel.ButtonListener;
 
 public class PendingOrders extends ShoppingCart implements ActionListener {
 	private JFrame frame;
 	private JPanel panel;
-	private JButton logout;
+	private JButton logout, confirm, skip;
 	private JComboBox choice, itemList;
 	JComboBox items;
 
@@ -82,7 +85,15 @@ public class PendingOrders extends ShoppingCart implements ActionListener {
 		//so theoretically, I'd like to have the checkbox tied to the combobox somehow. when certain 
 		//item is selected, it will have the check option, and when it's checked, it will 
 		//probably ask for confirmation, and then delete the item from pending orders with deleteOrders
-
+		
+		//yknow, instead of this checkbox thing, I might just have it give orders one by one, then 
+		//have multiple buttons. one that says "process order" which will trigger it to delete 
+		//the pending order, and one that says "skip"
+		
+		confirm = new JButton("Confirm Order");
+		skip = new JButton("Skip");
+		confirm.addActionListener(e);
+		
 		JLabel order1 = new JLabel("Order 1");
 		JLabel order2 = new JLabel("Order 2");
 		JLabel order3 = new JLabel("Order 3");
@@ -97,6 +108,10 @@ public class PendingOrders extends ShoppingCart implements ActionListener {
 		panel.add(order4);
 		panel.add(order5);
 		panel.add(order6);
+		panel.add(confirm);
+		panel.add(skip);
+		
+		
 		
 		itemList = new JComboBox(items);
 		itemList.setSelectedIndex(2); //this might change
@@ -174,14 +189,31 @@ public class PendingOrders extends ShoppingCart implements ActionListener {
 		}
 		if(e.getSource() == itemList) {
 			int j = itemList.getSelectedIndex();
+			
+			if(j==0) {
+				
+			}
+			
 		}
 		if(e.getSource() == logout) { // Log out the user
 
 			Driver.newChoice(6);
 
 		}
-		
+		 
+		        String s = e.getActionCommand();
+		        if (s.equals("Confirm Order")) {
+		          Item selectedItem =  (Item) itemList.getItemAt(j); //TODO: Rework this to get the selected item
+		          selectedItem.deleteOrder(username.getOrder()); //TODO: this also obviously doesn't work.
+		          j++; //TODO: not this, but want something that moves to next order
+		        }
+		        else if (s.equals("Skip")){
+		            j++;
+		        
+		    }
+			
+		}
 
 	}
 
-}
+
