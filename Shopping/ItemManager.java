@@ -15,17 +15,12 @@ import Accounts.Login;
 import DB.PostgresAccounts;
 
 public class ItemManager implements ActionListener {
-	private JFrame frame;
-	private JPanel panel;
+	private JPanel panel = new JPanel();
 	private JButton logout;
 	private JComboBox choice;
 	
 	public ItemManager() {
-		panel= new JPanel();
-		frame= new JFrame();
-		frame.setSize(1200,850);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(panel);
+		panel;
 
 		JLabel title = new JLabel("Item Manager");
 		title.setBounds(425, 10, 1200, 100);
@@ -60,26 +55,21 @@ public class ItemManager implements ActionListener {
 		panel.add(logout);
 		logout.setBounds(950, 50, 150, 25);
 		logout.addActionListener(this);
-		
-		frame.setVisible(true);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == choice) {
 			int i = choice.getSelectedIndex();
 			if(i == 0) {
-				frame.dispose();
-				ShoppingPage sp = new ShoppingPage();
+				Driver.newChoice(3);
 			} else if(i == 1) {
-				frame.dispose();
-				PendingOrders PO = new PendingOrders();
+				Driver.newChoice(5);
 			} else if (i == 2) {
-				frame.dispose();
-				ItemManager im = new ItemManager();
+				Driver.newChoice(4);
 			}
 		}
 		if(e.getSource() == logout) { // Log out the user
-			frame.dispose();
+
 			Login.main(new String[1]); // TODO: Fix!
 		}
 		
