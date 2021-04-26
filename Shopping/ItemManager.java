@@ -22,13 +22,19 @@ import DB.PostgresInventory;
 import DB.PostgresPending;
 
 public class ItemManager implements ActionListener {
-	private JFrame frame;
+	private String title;
+	private float price;
+	private String description;
+	private int stock;
 	private JPanel panel;
-	private JTextField searchBar, quantity, price;
-	private JButton logout, newItem, search, delete, confirm;
+	private JTextField tsearchBar, tquantity, tprice, titems, itemDisplay;
+	private JButton logout, newItem, search, delete, confirm, add;
 	private JComboBox choice;
+	String searching;
 
-
+	private PostgresInventory inventory = new PostgresInventory();
+	
+	
 
 
 	private String itemSearch;
@@ -41,38 +47,46 @@ public class ItemManager implements ActionListener {
 
 
 		panel= new JPanel();
-		frame= new JFrame();
-		frame.setSize(1200,850);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(panel);
+	
+		
+		search = new JButton("Search");
+		delete = new JButton("Delete");
+		add = new JButton("Add");
+		search.addActionListener(this);
+		delete.addActionListener(this);
+		add.addActionListener(this);
 
-
-
-
+		titems = new JTextField(20);
+				
 		JLabel title = new JLabel("Item Manager");
 		title.setBounds(425, 10, 1200, 100);
 		panel.add(title);
 		title.setFont(new Font(null, Font.BOLD,55));
-
-		frame.setVisible(true);
+		
+		panel.add(add);
+		panel.add(delete);
+		panel.add(search);
+		panel.add(itemDisplay);
+	
 
 	}
-	public void find(String search) {
+	public void find(String searching) {
 
-		ArrayList<Item> itemList = PostgresInventory.getInventory();
-		itemList.toArray();
+		ArrayList<Item> itemList = inventory.getInventory();
+		System.out.println(itemList.toArray());
 
-
+		
 
 		for(int i = 0; i < itemList.size(); i++) {
 
 
 			Item itemSearch = itemList.get(i);
-			if(search == itemSearch.getTitle()) {
+			if(searching == itemSearch.getTitle()) {
 				//itemSearch.print();
 				String item = itemSearch.getTitle();
-				System.out.println(item);
-				//trying to make this search query have addItem and deleteItem options.
+				itemDisplay = new JTextField(20);
+				itemDisplay.setText(item);
+				
 			}
 
 		}
@@ -84,12 +98,20 @@ public class ItemManager implements ActionListener {
 		this.item = itemSearch;
 		System.out.println("Delete " + itemSearch + "?"); //make this into GUI 
 		//when JButton confirm, then 
-		deleteItem(itemSearch);
+		Item deleteItem = new Item(title, price, description, stock);//TODO: need to add function to make title, price, desc and stock fill in with user input
+		String itemTitle = deleteItem.getTitle();
+		inventory.itemTitle(newItem); //TODO: unsure of how to fix this error
+		
 	}
 
-	public void addItem(String itemSearch) {
+	public void addItems(String itemSearch) {
+		Item newItem = new Item(title, price, description, stock);
+		inventory.addItem(newItem);
+		/*
 		this.item = itemSearch;
 		addItem(itemSearch);
+		titems.setText(itemSearch);
+		*/
 	}
 	public void addPanel(JFrame frame) {
 		frame.add(panel);
@@ -98,10 +120,16 @@ public class ItemManager implements ActionListener {
 	public void removePanel(JFrame frame) {
 		frame.remove(panel);
 	}
-
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource() == search) {
+			
+			find(searching);
+		}
 	
 		if(e.getSource() == choice) {
 			int i = choice.getSelectedIndex();
@@ -114,10 +142,16 @@ public class ItemManager implements ActionListener {
 			}
 		}
 		if(e.getSource() == logout) { // Log out the user
-			Driver.newChoice(0);
+			Driver.newChoice(6);
 
 		}
-		//if(e.getSource == )
+		if(e.getSource() == "Add") {
+			
+			addItems(itemSearch);
+			
+		} else if(e.getSource() == "Delete") {
+			deleteItem(item);
+		} 
 
 	}
 }
