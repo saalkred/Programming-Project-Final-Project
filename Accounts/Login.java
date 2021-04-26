@@ -123,6 +123,7 @@ public class Login implements ActionListener {
 	if (e.getSource()== LoginButton) {
 		if (pAccount.accountExists(user) && pAccount.getAccount(user).getPassword().equals(password)) {
 		JOptionPane.showMessageDialog(null, "Login Successful", "Login", JOptionPane.PLAIN_MESSAGE );
+			Driver.setCurrentAccount(user);
 			Driver.newChoice(3);
 			
 	} else {
