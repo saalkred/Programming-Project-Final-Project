@@ -66,26 +66,39 @@ public class ItemManager implements ActionListener {
 		panel.add(add);
 		panel.add(delete);
 		panel.add(search);
-		panel.add(itemDisplay);
-	
+		
+		search = new JButton("Search!");
+		panel.add(tsearchBar);
+		search.setBounds(525,200,175,60);
+		search.addActionListener(this);
+		
+		tsearchBar = new JTextField("");
+		tsearchBar.setEditable(true);
+		tsearchBar.setFont(new Font("SansSerif", Font.BOLD, 23));
+		panel.add(tsearchBar);
+		tsearchBar.setBounds(25,200,475,60);
+		tsearchBar.addActionListener(this);
 
 	}
-	public void find(String searching) {
-
+	public void find(String searchQuery) {
+		
+		
 		ArrayList<Item> itemList = inventory.getInventory();
-		System.out.println(itemList.toArray());
-
+		
+	
 		
 
 		for(int i = 0; i < itemList.size(); i++) {
 
 
 			Item itemSearch = itemList.get(i);
-			if(searching == itemSearch.getTitle()) {
-				//itemSearch.print();
+			if(searchQuery == itemSearch.getTitle()) {
+			
 				String item = itemSearch.getTitle();
-				itemDisplay = new JTextField(20);
+				
+				itemDisplay = new JTextField(30);
 				itemDisplay.setText(item);
+				panel.add(itemDisplay);
 				
 			}
 
@@ -128,7 +141,9 @@ public class ItemManager implements ActionListener {
 		
 		if(e.getSource() == search) {
 			
-			find(searching);
+			if(tsearchBar.getText().replaceAll("\\s+","").equals("")) {
+				
+			}
 		}
 	
 		if(e.getSource() == choice) {
