@@ -1,6 +1,5 @@
 package Accounts;
 import DB.*;
-import Shopping.ShoppingPage;
 import main.Driver;
 
 import java.awt.Font;
@@ -44,7 +43,7 @@ public class CreateAccountCustomer implements ActionListener{
 		JLabel title = new JLabel(" Create Account ");
 		title.setBounds(220, 150, 1200, 100);
 		panel.add(title);
-		title.setFont(new Font( null, Font.BOLD,55));
+		title.setFont(new Font("Font", Font.BOLD,55));
 		
 		String [] options= {"Customer","Employee"};
 		choice = new JComboBox(options);
@@ -56,7 +55,7 @@ public class CreateAccountCustomer implements ActionListener{
 				
 		UseNameLabel = new JLabel(" User Name:");
 		UseNameLabel.setBounds(200, 300, 200, 25);
-		UseNameLabel.setFont(new Font( null, Font.BOLD,20));
+		UseNameLabel.setFont(new Font("Font", Font.BOLD,20));
 		panel.add(UseNameLabel);
 				
 		UserNameText = new JTextField(20);
@@ -65,7 +64,7 @@ public class CreateAccountCustomer implements ActionListener{
 				//
 		PasswordLabel = new JLabel(" Password: ");
 		PasswordLabel.setBounds(200, 350, 200, 25);
-		PasswordLabel.setFont(new Font( null, Font.BOLD,20));
+		PasswordLabel.setFont(new Font("Font", Font.BOLD,20));
 		panel.add(PasswordLabel);
 				
 		PasswordText = new JPasswordField(20);
@@ -74,7 +73,7 @@ public class CreateAccountCustomer implements ActionListener{
 				//		
 		FirstName = new JLabel(" First Name:");
 		FirstName.setBounds(200, 400, 250, 25);
-		FirstName.setFont(new Font( null, Font.BOLD,20));
+		FirstName.setFont(new Font("Font", Font.BOLD,20));
 		panel.add(FirstName);
 				
 		FirstNameText = new JTextField(20);
@@ -83,7 +82,7 @@ public class CreateAccountCustomer implements ActionListener{
 				//
 		LastName = new JLabel(" Last Name:");
 		LastName.setBounds(200, 450, 250, 25);
-		LastName.setFont(new Font( null, Font.BOLD,20));
+		LastName.setFont(new Font("Font", Font.BOLD,20));
 		panel.add(LastName);
 				
 		LastNameText = new JTextField(20);
@@ -92,7 +91,7 @@ public class CreateAccountCustomer implements ActionListener{
 				//
 		Email = new JLabel(" Email: ");
 		Email.setBounds(200, 500, 250, 25);
-		Email.setFont(new Font( null, Font.BOLD,20));
+		Email.setFont(new Font("Font", Font.BOLD,20));
 		panel.add(Email);
 				
 		EmailText = new JTextField(20);
@@ -101,7 +100,7 @@ public class CreateAccountCustomer implements ActionListener{
 				//
 		Address = new JLabel(" Address: ");
 		Address.setBounds(200, 550, 250, 25);
-		Address.setFont(new Font( null, Font.BOLD,20));
+		Address.setFont(new Font("Font", Font.BOLD,20));
 		panel.add(Address);
 				
 		AddressText = new JTextField(20);
@@ -113,7 +112,7 @@ public class CreateAccountCustomer implements ActionListener{
 		CreateAccount.addActionListener(this);
 		panel.add(CreateAccount);
 				//
-		String [] navigations= {"Login Page","Create Account Page", "Shoping Page"};
+		String [] navigations= {"Login Page","Create Account Page", "Shopping Page"};
 		navigation = new JComboBox(navigations);
 		navigation.setSelectedIndex(1);
 		panel.add(navigation);
