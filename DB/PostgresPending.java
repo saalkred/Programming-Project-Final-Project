@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class PostgresPending {
 	private static Connection c = null;
 	
+	private static PostgresInventory pInventory = new PostgresInventory();
 	/**
 	 * Main method establishes connection to database for any calls within it
 	 */
@@ -36,6 +37,7 @@ public class PostgresPending {
 	
 	/**
 	 * 
+	 * @return true if the table exists
 	 */
 	public static boolean tableExists(){
 		Statement stmt = null;
@@ -87,8 +89,8 @@ public class PostgresPending {
 	/**
 	 * Adds a pending order for the given username
 	 * @param username
-	 * @param status
-	 * @param contents Items only need title and stock (quantity in order)
+	 * @param status 1 = shopping cart, 2 = pending, 3 = confirmed
+	 * @param contents Items need title and "stock" (quantity in order)
 	 */
 	public static void addPending(String username, int status, ArrayList<Item> contents) {
 		try {
@@ -125,6 +127,11 @@ public class PostgresPending {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param username
+	 * @return ArrayList of items with Title and Quantity
+	 */
 	public static ArrayList<Item> getOrder(String username) {
 		Statement stmt = null;
 		ArrayList<Item> result = new ArrayList<Item>();
@@ -148,6 +155,11 @@ public class PostgresPending {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param username
+	 * @return 1 = shopping cart, 2 = pending, 3 = confirmed
+	 */
 	public static int getOrderStatus(String username) {
 		Statement stmt = null;
 		int result = 0;
@@ -170,6 +182,32 @@ public class PostgresPending {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param username
+	 * @param status 1 = shopping cart, 2 = pending, 3 = confirmed
+	 */
+	public static void setOrderStatus(String username, int status) {
+		Statement stmt = null;
+		try {
+			c.setAutoCommit(false);
+			stmt = c.createStatement();
+			String sql = "UPDATE Pending SET Status = " + status + " WHERE Username = '" + username + "';";
+			stmt.executeUpdate(sql);
+			stmt.close();
+			c.commit();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return ArrayList of usernames with pending orders associated
+	 */
 	public static ArrayList<String> getPendingList() {
 		Statement stmt = null;
 		ArrayList<String> result = new ArrayList<String>();
@@ -191,6 +229,11 @@ public class PostgresPending {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param username
+	 * @return true if a pending order exists for that username
+	 */
 	public static boolean orderExists(String username) {
 		Statement stmt = null;
 		try {
@@ -213,7 +256,11 @@ public class PostgresPending {
 		}
 	}
 
-	
+	/**
+	 * Deletes the orders associated with that username
+	 * 
+	 * @param username
+	 */
 	public static void deleteOrder (String username) {
 		if (orderExists(username)) {
 			Statement stmt = null;
@@ -233,6 +280,32 @@ public class PostgresPending {
 			}
 		} else {
 			System.out.println("No such order for that username");
+		}
+	}
+	
+	/**
+	 * 
+	 * @param username
+	 */
+	public static void confirmOrder (String username) {
+		if (orderExists(username)) {
+			Statement stmt = null;
+			try {
+				c.setAutoCommit(false);
+				stmt = c.createStatement();
+				String sql = "UPDATE Pending SET Status = " + 3 + " WHERE Username = '" + username + "';";
+				stmt.executeUpdate(sql);
+				c.commit();
+				stmt.close();
+				ArrayList<Item> order = getOrder(username);
+				for (int i = 0; i < order.size(); i++) { // iterate through the pending order, subtracting that amount of that item from the inventory
+					pInventory.setItemStock(order.get(i).getTitle(), pInventory.getItem(order.get(i).getTitle()).getStock() - order.get(i).getStock());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println(e.getClass().getName() + ": " + e.getMessage());
+				System.exit(0);
+			}
 		}
 	}
 }
