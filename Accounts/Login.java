@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import java.util.ArrayList;
+
 
 
 public class Login implements ActionListener {
@@ -27,7 +29,8 @@ public class Login implements ActionListener {
 	private static JButton CreateAccount;
 	private static JLabel LoginSuccessful;
 	private static JPanel panel;	
-	private static PostgresAccounts pAccount = new PostgresAccounts();	 
+	private static PostgresAccounts pAccount = new PostgresAccounts();
+	private static PostgresPending pPending = new PostgresPending();
 	
 
 	public Login() {
@@ -123,6 +126,9 @@ public class Login implements ActionListener {
 	if (e.getSource()== LoginButton) {
 		if (pAccount.accountExists(user) && pAccount.getAccount(user).getPassword().equals(password)) {
 		JOptionPane.showMessageDialog(null, "Login Successful", "Login", JOptionPane.PLAIN_MESSAGE );
+			if (pPending.orderExists(user)) {
+				Driver.shoppingCart = pPending.getOrder(user);
+			}
 			Driver.setCurrentAccount(user);
 			Driver.newChoice(3);
 			
