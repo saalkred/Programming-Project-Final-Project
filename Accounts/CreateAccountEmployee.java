@@ -36,7 +36,7 @@ public class CreateAccountEmployee implements ActionListener{
 	private JPanel panel;	
 	private JComboBox navigation;
 	private int ii=1;
-	
+
 	private PostgresAccounts pAccounts = new PostgresAccounts();
 
 	public CreateAccountEmployee(){			
@@ -124,11 +124,11 @@ public class CreateAccountEmployee implements ActionListener{
 		CreateAccount.addActionListener(this);
 		panel.add(CreateAccount);
 		//
-		String [] navigations= {"Login Page","Create Account Page"};
+		String[] navigations = {"Login", "Shopping", "Pending Orders", "Item Manager"};
 		navigation = new JComboBox(navigations);
-		navigation.setSelectedIndex(1);
+		navigation.setSelectedIndex(0);
 		panel.add(navigation);
-		navigation.setBounds(10, 10, 150, 25);
+		navigation.setBounds(100, 50, 150, 25);
 		navigation.addActionListener(this);
 	}
 
@@ -165,19 +165,30 @@ public class CreateAccountEmployee implements ActionListener{
 			pAccounts.addAccount(new Account(position, name, UserNameText.getText(), PasswordText.getText(), EmailText.getText()));
 			Driver.newChoice(3);
 		}
-		ii=navigation.getSelectedIndex();
-		switch (ii){
-		case 0:
-			Driver.newChoice(0);
-			break;
-
-		case 1:
-
-			break;
-
-		case 2:
-			Driver.newChoice(3);
-			break;
+		if(e.getSource() == navigation) {
+			int index = choice.getSelectedIndex();
+			switch (index) {
+				case 0:
+					Driver.newChoice(0);
+					break;
+				case 1:
+					Driver.newChoice(3);
+					break;
+				case 2:
+					if (pAccounts.getAccount(Driver.getCurrentAccount()).getType() == 3) {
+						Driver.newChoice(5);
+					} else {
+						choice.setSelectedIndex(1);
+					}
+					break;
+				case 3:
+					if (pAccounts.getAccount(Driver.getCurrentAccount()).getType() == 3) {
+						Driver.newChoice(4);
+					} else {
+						choice.setSelectedIndex(1);
+					}
+					break;
+			}
 		}
 
 	}
