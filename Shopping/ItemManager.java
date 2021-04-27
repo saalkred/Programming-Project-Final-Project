@@ -65,18 +65,18 @@ public class ItemManager implements ActionListener {
 		
 		panel.add(add);
 		panel.add(delete);
-		panel.add(search);
+		
 		
 		search = new JButton("Search!");
-		panel.add(tsearchBar);
-		search.setBounds(525,200,175,60);
+		panel.add(search);
+		search.setBounds(500,200,175,60);
 		search.addActionListener(this);
 		
-		tsearchBar = new JTextField("");
+		tsearchBar = new JTextField(40);
 		tsearchBar.setEditable(true);
 		tsearchBar.setFont(new Font("SansSerif", Font.BOLD, 23));
 		panel.add(tsearchBar);
-		tsearchBar.setBounds(25,200,475,60);
+		tsearchBar.setBounds(250,300,475,60);
 		tsearchBar.addActionListener(this);
 
 	}
