@@ -38,7 +38,8 @@ public class ShoppingPage implements ActionListener {
 	private JTextArea JTA1, JTA2, JTA3, JTA4, JTA5, JTA6;
 	private JScrollPane JSP1, JSP2, JSP3, JSP4, JSP5, JSP6;
 	private JPanel captionAndTitle1, captionAndTitle2, captionAndTitle3, captionAndTitle4, captionAndTitle5, captionAndTitle6;
-
+	private JPanel cartPanel = new JPanel(new GridLayout(10,2));
+	
 	public ShoppingPage() {
 		JLabel title = new JLabel("Shopping Page");
 		title.setBounds(375, 10, 1200, 100);
@@ -197,8 +198,6 @@ public class ShoppingPage implements ActionListener {
 		caption4.addActionListener(this);
 		caption5.addActionListener(this);
 		caption6.addActionListener(this);
-		
-		
 	}
 	
 	public void updateBySearch(String text) {
@@ -353,6 +352,19 @@ public class ShoppingPage implements ActionListener {
 		}
 	}
 
+	public void updateCart() {
+//		cartPanel.removeAll();
+		for(int i = 0; i < Driver.shoppingCart.size(); i++) {
+			JLabel jl = new JLabel(Driver.shoppingCart.get(i) + " - $" + Driver.shoppingCart.get(i).getPrice());
+			cartPanel.add(jl);
+			Driver.refresh();
+			SwingUtilities.updateComponentTreeUI(cartPanel);
+		}
+		panel.add(cartPanel);
+		Driver.refresh();
+		SwingUtilities.updateComponentTreeUI(cartPanel);
+	}
+	
 	public ArrayList<String> addNavigationByType(String username) {
 		ArrayList<String> optionsAL = new ArrayList<>();
 		if(PostgresAccounts.getAccount(Driver.getCurrentAccount()).getType() == 2 || 
@@ -384,17 +396,24 @@ public class ShoppingPage implements ActionListener {
 			}
 		}
 		if(e.getSource() == caption1) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL1.getText().substring(0,JL1.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL1.getText().substring(0,JL1.getText().indexOf("-")-1)));
+			updateCart();
 		} else if(e.getSource() == caption2) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL2.getText().substring(0,JL2.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL2.getText().substring(0,JL2.getText().indexOf("-")-1)));
+			updateCart();
 		} else if(e.getSource() == caption3) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL3.getText().substring(0,JL3.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL3.getText().substring(0,JL3.getText().indexOf("-")-1)));
+			updateCart();
 		} else if(e.getSource() == caption4) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL4.getText().substring(0,JL4.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL4.getText().substring(0,JL4.getText().indexOf("-")-1)));
+			updateCart();
 		} else if(e.getSource() == caption5) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL5.getText().substring(0,JL5.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL5.getText().substring(0,JL5.getText().indexOf("-")-1)));
+			updateCart();
 		} else if(e.getSource() == caption6) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL6.getText().substring(0,JL6.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL6.getText().substring(0,JL6.getText().indexOf("-")-1)));
+			updateCart();
+		
 		}
 		if(e.getSource() == checkout) {
 			double totalPrice = 0;
