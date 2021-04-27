@@ -46,16 +46,19 @@ public class ShoppingPage implements ActionListener {
 		title.setFont(new Font(null, Font.BOLD,55));
 
 		ArrayList<String> optionsAL = new ArrayList<>();
+		optionsAL.add("Login");
+		optionsAL.add("Create Account Customer");
 		optionsAL.add("Shopping Cart");
-		optionsAL.add("Pending Orders");
 		optionsAL.add("Item Manager");
+		optionsAL.add("Pending Orders");
+
 		String[] options = new String[optionsAL.size()];
 		for(int i = 0; i < optionsAL.size(); i++) {
 			options[i] = optionsAL.get(i);
 		}
 
 		choice = new JComboBox(options);
-		choice.setSelectedIndex(0);
+		choice.setSelectedIndex(2);
 		panel.add(choice);
 		choice.setBounds(100, 50, 150, 25);
 		choice.addActionListener(this);
@@ -138,32 +141,32 @@ public class ShoppingPage implements ActionListener {
 		JPanel captionAndTitle5 = new JPanel(new GridLayout(2,1));
 		JPanel captionAndTitle6 = new JPanel(new GridLayout(2,1));
 
-		JL1.setText(pi.getInventory().get(0).getTitle() + " - $" + pi.getInventory().get(0).getPrice());
+		JL1.setText(pi.getInventory().get(0).getTitle() + " -\n $" + pi.getInventory().get(0).getPrice());
 		JTA1.setText(pi.getInventory().get(0).getDescription());
 		JSP1 = new JScrollPane(JTA1, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		captionAndTitle1.add(JL1); captionAndTitle1.add(JSP1);
 
-		JL2.setText(pi.getInventory().get(1).getTitle() + " - $" + pi.getInventory().get(1).getPrice());
+		JL2.setText(pi.getInventory().get(1).getTitle() + " -\n $" + pi.getInventory().get(1).getPrice());
 		JTA2.setText(pi.getInventory().get(1).getDescription());
 		JSP2 = new JScrollPane(JTA2, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		captionAndTitle2.add(JL2); captionAndTitle2.add(JSP2);
 
-		JL3.setText(pi.getInventory().get(2).getTitle() + " - $" + pi.getInventory().get(2).getPrice());
+		JL3.setText(pi.getInventory().get(2).getTitle() + " -\n $" + pi.getInventory().get(2).getPrice());
 		JTA3.setText(pi.getInventory().get(2).getDescription());
 		JSP3 = new JScrollPane(JTA3, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		captionAndTitle3.add(JL3); captionAndTitle3.add(JSP3);
 
-		JL4.setText(pi.getInventory().get(3).getTitle() + " - $" + pi.getInventory().get(3).getPrice());
+		JL4.setText(pi.getInventory().get(3).getTitle() + " -\n $" + pi.getInventory().get(3).getPrice());
 		JTA4.setText(pi.getInventory().get(3).getDescription());
 		JSP4 = new JScrollPane(JTA4, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		captionAndTitle4.add(JL4); captionAndTitle4.add(JSP4);
 
-		JL5.setText(pi.getInventory().get(4).getTitle() + " - $" + pi.getInventory().get(4).getPrice());
+		JL5.setText(pi.getInventory().get(4).getTitle() + " -\n $" + pi.getInventory().get(4).getPrice());
 		JTA5.setText(pi.getInventory().get(4).getDescription());
 		JSP5 = new JScrollPane(JTA5, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		captionAndTitle5.add(JL5); captionAndTitle5.add(JSP5);
 
-		JL6.setText(pi.getInventory().get(5).getTitle() + " - $" + pi.getInventory().get(5).getPrice());
+		JL6.setText(pi.getInventory().get(5).getTitle() + " -\n $" + pi.getInventory().get(5).getPrice());
 		JTA6.setText(pi.getInventory().get(5).getDescription());
 		JSP6 = new JScrollPane(JTA6, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		captionAndTitle6.add(JL6); captionAndTitle6.add(JSP6);
@@ -175,8 +178,8 @@ public class ShoppingPage implements ActionListener {
 		JTA5.setEditable(false);
 		JTA6.setEditable(false);
 		
-		innerPanel.add(captionAndTitle1);
-		innerPanel.add(caption1);
+		innerPanel.add(captionAndTitle1); // Text
+		innerPanel.add(caption1); // Buttons
 		innerPanel.add(captionAndTitle2);
 		innerPanel.add(caption2);
 		innerPanel.add(captionAndTitle3);
@@ -194,8 +197,10 @@ public class ShoppingPage implements ActionListener {
 		caption4.addActionListener(this);
 		caption5.addActionListener(this);
 		caption6.addActionListener(this);
+		
+		
 	}
-
+	
 	public void updateBySearch(String text) {
 		ArrayList<Item> al = pi.searchInventory(text);
 		for(int i = 0; i < al.size(); i++) {
@@ -220,28 +225,44 @@ public class ShoppingPage implements ActionListener {
 		}
 		
 		if(al.size() == 1) {	
-			innerPanel.removeAll();
-			
-			innerPanel.add(captionAndTitle1);
-			innerPanel.add(caption1);
-			
-			JL1.setText(al.get(0).getTitle() + " - $" + al.get(0).getPrice());
+			JL1.setText(al.get(0).getTitle() + "\n $" + al.get(0).getPrice());
 			JTA1.setText(al.get(0).getDescription());
-			JSP1 = new JScrollPane(JTA1, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			caption1.addActionListener(this);
 			
 			JTA1.setEditable(false);
+			JTA1.setLineWrap(true);
+			
+			innerPanel.remove(captionAndTitle2);
+			caption2.removeActionListener(this);
+			innerPanel.remove(caption2);
+			innerPanel.remove(captionAndTitle3);
+			caption3.removeActionListener(this);
+			innerPanel.remove(caption3);
+			innerPanel.remove(captionAndTitle4);
+			caption4.removeActionListener(this);
+			innerPanel.remove(caption4);
+			innerPanel.remove(captionAndTitle5);
+			caption5.removeActionListener(this);
+			innerPanel.remove(caption5);
+			innerPanel.remove(captionAndTitle6);
+			caption6.removeActionListener(this);
+			innerPanel.remove(caption6);
 			
 			Driver.refresh();
 			SwingUtilities.updateComponentTreeUI(innerPanel);
 
 		} else if (al.size() == 2) {
-			JL1.setText(al.get(0).getTitle() + " - $" + al.get(0).getPrice());
+			JL1.setText(al.get(0).getTitle() + "\n $" + al.get(0).getPrice());
 			JTA1.setText(al.get(0).getDescription());
+			
 			JTA1.setEditable(false);
-			JL2.setText(al.get(1).getTitle() + " - $" + al.get(1).getPrice());
+			JTA1.setLineWrap(true);
+			
+			JL2.setText(al.get(1).getTitle() + "\n $" + al.get(1).getPrice());
 			JTA2.setText(al.get(1).getDescription());
+			
 			JTA2.setEditable(false);
+			JTA2.setLineWrap(true);
+			
 			innerPanel.remove(captionAndTitle3);
 			caption3.removeActionListener(this);
 			innerPanel.remove(caption3);
@@ -257,13 +278,16 @@ public class ShoppingPage implements ActionListener {
 			Driver.refresh();
 			SwingUtilities.updateComponentTreeUI(innerPanel);
 		} else if (al.size() == 3) {
-			JL1.setText(al.get(0).getTitle() + " - $" + al.get(0).getPrice());
+			JL1.setText(al.get(0).getTitle() + "\n $" + al.get(0).getPrice());
 			JTA1.setText(al.get(0).getDescription());
 			JTA1.setEditable(false);
-			JL2.setText(al.get(1).getTitle() + " - $" + al.get(1).getPrice());
+			JL2.setText(al.get(1).getTitle() + "\n $" + al.get(1).getPrice());
 			JTA2.setText(al.get(1).getDescription());
+			
 			JTA2.setEditable(false);
-			JL3.setText(al.get(2).getTitle() + " - $" + al.get(2).getPrice());
+			JTA2.setLineWrap(true);
+			
+			JL3.setText(al.get(2).getTitle() + "\n $" + al.get(2).getPrice());
 			JTA3.setText(al.get(2).getDescription());
 			innerPanel.remove(captionAndTitle4);
 			caption4.removeActionListener(this);
@@ -277,16 +301,16 @@ public class ShoppingPage implements ActionListener {
 			Driver.refresh();
 			SwingUtilities.updateComponentTreeUI(innerPanel);
 		} else if(al.size() == 4) {
-			JL1.setText(al.get(0).getTitle() + " - $" + al.get(0).getPrice());
+			JL1.setText(al.get(0).getTitle() + "\n $" + al.get(0).getPrice());
 			JTA1.setText(al.get(0).getDescription());
 			JTA1.setEditable(false);
-			JL2.setText(al.get(1).getTitle() + " - $" + al.get(1).getPrice());
+			JL2.setText(al.get(1).getTitle() + "\n $" + al.get(1).getPrice());
 			JTA2.setText(al.get(1).getDescription());
 			JTA2.setEditable(false);
-			JL3.setText(al.get(2).getTitle() + " - $" + al.get(2).getPrice());
+			JL3.setText(al.get(2).getTitle() + "\n $" + al.get(2).getPrice());
 			JTA3.setText(al.get(2).getDescription());
-			JL4.setText(al.get(3).getTitle() + " - $" + al.get(3).getPrice());
-			JTA4.setText(al.get(3).getTitle() + " - $" + al.get(4).getPrice());
+			JL4.setText(al.get(3).getTitle() + "\n $" + al.get(3).getPrice());
+			JTA4.setText(al.get(3).getTitle() + "\n $" + al.get(4).getPrice());
 			innerPanel.remove(captionAndTitle5);
 			caption5.removeActionListener(this);
 			innerPanel.remove(caption5);
@@ -296,15 +320,15 @@ public class ShoppingPage implements ActionListener {
 			Driver.refresh();
 			SwingUtilities.updateComponentTreeUI(innerPanel);
 		} else if(al.size() == 5) {
-			JL1.setText(al.get(0).getTitle() + " - $" + al.get(0).getPrice());
+			JL1.setText(al.get(0).getTitle() + "\n $" + al.get(0).getPrice());
 			JTA1.setText(al.get(0).getDescription());
-			JL2.setText(al.get(1).getTitle() + " - $" + al.get(1).getPrice());
+			JL2.setText(al.get(1).getTitle() + "\n $" + al.get(1).getPrice());
 			JTA2.setText(al.get(1).getDescription());
-			JL3.setText(al.get(2).getTitle() + " - $" + al.get(2).getPrice());
+			JL3.setText(al.get(2).getTitle() + "\n $" + al.get(2).getPrice());
 			JTA3.setText(al.get(2).getDescription());
-			JL4.setText(al.get(3).getTitle() + " - $" + al.get(3).getPrice());
+			JL4.setText(al.get(3).getTitle() + "\n $" + al.get(3).getPrice());
 			JTA4.setText(al.get(3).getDescription());
-			JL5.setText(al.get(4).getTitle() + " - $" + al.get(4).getPrice());
+			JL5.setText(al.get(4).getTitle() + "\n $" + al.get(4).getPrice());
 			JTA5.setText(al.get(4).getDescription());
 			innerPanel.remove(captionAndTitle6);
 			caption6.removeActionListener(this);
@@ -312,17 +336,17 @@ public class ShoppingPage implements ActionListener {
 			Driver.refresh();
 			SwingUtilities.updateComponentTreeUI(innerPanel);
 		} else if (al.size() == 6) {
-			JL1.setText(al.get(0).getTitle() + " - $" + al.get(0).getPrice());
+			JL1.setText(al.get(0).getTitle() + "\n $" + al.get(0).getPrice());
 			JTA1.setText(al.get(0).getDescription());
-			JL2.setText(al.get(1).getTitle() + " - $" + al.get(1).getPrice());
+			JL2.setText(al.get(1).getTitle() + "\n $" + al.get(1).getPrice());
 			JTA2.setText(al.get(1).getDescription());
-			JL3.setText(al.get(2).getTitle() + " - $" + al.get(2).getPrice());
+			JL3.setText(al.get(2).getTitle() + "\n $" + al.get(2).getPrice());
 			JTA3.setText(al.get(2).getDescription());
-			JL4.setText(al.get(3).getTitle() + " - $" + al.get(3).getPrice());
+			JL4.setText(al.get(3).getTitle() + "\n $" + al.get(3).getPrice());
 			JTA4.setText(al.get(3).getDescription());
-			JL5.setText(al.get(4).getTitle() + " - $" + al.get(4).getPrice());
+			JL5.setText(al.get(4).getTitle() + "\n $" + al.get(4).getPrice());
 			JTA5.setText(al.get(4).getDescription());
-			JL6.setText(al.get(5).getTitle() + " - $" + al.get(5).getPrice());
+			JL6.setText(al.get(5).getTitle() + "\n $" + al.get(5).getPrice());
 			JTA6.setText(al.get(5).getDescription());
 			Driver.refresh();
 			SwingUtilities.updateComponentTreeUI(innerPanel);
@@ -333,8 +357,10 @@ public class ShoppingPage implements ActionListener {
 		ArrayList<String> optionsAL = new ArrayList<>();
 		if(PostgresAccounts.getAccount(Driver.getCurrentAccount()).getType() == 2 || 
 				PostgresAccounts.getAccount(Driver.getCurrentAccount()).getType() ==  3) {
-			optionsAL.add("Pending Orders");
+			optionsAL.add("Login");
+			optionsAL.add("Create Account Customer");
 			optionsAL.add("Item Manager");
+			optionsAL.add("Pending Orders");
 		}
 		return optionsAL;
 	}
@@ -343,26 +369,32 @@ public class ShoppingPage implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == choice) {
 			int i = choice.getSelectedIndex();
-			if(i == 1) {
+			if(i == 0) {
 				choice.setSelectedIndex(1);
-				Driver.newChoice(5);
+				Driver.newChoice(0);
 			} else if (i == 2) {
 				choice.setSelectedIndex(2);
+				Driver.newChoice(1);
+			} else if(i == 3) {
+				choice.setSelectedIndex(3);
 				Driver.newChoice(4);
+			} else if (i == 4) {
+				choice.setSelectedIndex(4);
+				Driver.newChoice(5);
 			}
 		}
 		if(e.getSource() == caption1) {
 			Driver.shoppingCart.add(PostgresInventory.getItem(JL1.getText().substring(0,JL1.getText().indexOf(" - "))));
 		} else if(e.getSource() == caption2) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL1.getText().substring(0,JL2.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL2.getText().substring(0,JL2.getText().indexOf(" - "))));
 		} else if(e.getSource() == caption3) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL1.getText().substring(0,JL3.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL3.getText().substring(0,JL3.getText().indexOf(" - "))));
 		} else if(e.getSource() == caption4) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL1.getText().substring(0,JL4.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL4.getText().substring(0,JL4.getText().indexOf(" - "))));
 		} else if(e.getSource() == caption5) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL1.getText().substring(0,JL5.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL5.getText().substring(0,JL5.getText().indexOf(" - "))));
 		} else if(e.getSource() == caption6) {
-			Driver.shoppingCart.add(PostgresInventory.getItem(JL1.getText().substring(0,JL6.getText().indexOf(" - "))));
+			Driver.shoppingCart.add(PostgresInventory.getItem(JL6.getText().substring(0,JL6.getText().indexOf(" - "))));
 		}
 		if(e.getSource() == checkout) {
 			double totalPrice = 0;
