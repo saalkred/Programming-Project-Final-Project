@@ -71,7 +71,7 @@ public class PostgresAccounts {
 			
 			stmt = c.createStatement();
 			String sql = "CREATE TABLE ACCOUNTS (" +
-			"TYPE INT NOT NULL," + // account type: 1 = customer, 2 = clerk, 3 = manager
+			"TYPE INT NOT NULL," + // account type: 1 = customer, 2 = employee, 3 = manager
 			"NAME TEXT NOT NULL," + // first and last name
 			"USERNAME TEXT PRIMARY KEY NOT NULL," + // username for login
 			"PASSWORD TEXT NOT NULL," + // password associated with the email address

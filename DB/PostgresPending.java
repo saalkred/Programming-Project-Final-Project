@@ -269,8 +269,8 @@ public class PostgresPending {
 				stmt = c.createStatement();
 				String sql = "DELETE FROM Pending WHERE Username = '" + username + "';";
 				stmt.executeUpdate(sql);
-				stmt.close();
 				c.commit();
+				stmt.close();
 				System.out.println("Order deleted");
 			
 			} catch (Exception e) {

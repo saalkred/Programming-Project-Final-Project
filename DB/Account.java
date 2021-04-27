@@ -23,7 +23,6 @@ public class Account {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.address = address;
 	}
 	
 	public Account() {
