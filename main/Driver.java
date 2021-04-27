@@ -31,7 +31,6 @@ public class Driver {
 		frame.setSize(1200,850);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
 		login.addPanel(frame);
 		
 		do {
@@ -62,14 +61,16 @@ public class Driver {
 					refresh();
 					break;
 				case 6:
-					pPending.addPending(currentAccountUsername, 1, shoppingCart);
+					if (!pPending.orderExists(currentAccountUsername)) {
+						pPending.addPending(currentAccountUsername, 1, shoppingCart);
+					}
 					currentAccountUsername = "";
 					shoppingCart.clear();
 					login.addPanel(frame);
 					refresh();
 					break;
 			}
-		}  while (choice != 6);
+		}  while (true);
 	}
 	
 	
