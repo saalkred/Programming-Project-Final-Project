@@ -21,7 +21,7 @@ import DB.PostgresPending;
 import gui.BankAccount;
 import gui.BankPanel.ButtonListener;
 
-public class PendingOrders extends ShoppingCart implements ActionListener {
+public class PendingOrders implements ActionListener {
 	private JFrame frame;
 	private JPanel panel;
 	private JButton logout, confirm, skip;
