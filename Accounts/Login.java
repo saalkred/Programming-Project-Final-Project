@@ -46,16 +46,7 @@ public class Login implements ActionListener {
 
 		panel.setLayout(null);
 
-		ArrayList<String> optionsAL = new ArrayList<>();
-		optionsAL.add("Login");
-		optionsAL.add("Shopping");
-		optionsAL.add("Pending Orders");
-		optionsAL.add("Item Manager");
-
-		String[] options = new String[optionsAL.size()];
-		for(int i = 0; i < optionsAL.size(); i++) {
-			options[i] = optionsAL.get(i);
-		}
+		String[] options = {"Login", "Shopping", "Pending Orders", "Item Manager"};
 
 		choice = new JComboBox(options);
 		choice.setSelectedIndex(0);
@@ -160,8 +151,11 @@ public class Login implements ActionListener {
 			if (pAccount.accountExists(user) && pAccount.getAccount(user).getPassword().equals(password)) {
 				JOptionPane.showMessageDialog(null, "Login Successful", "Login", JOptionPane.PLAIN_MESSAGE );
 				if (pPending.orderExists(user)) {
-					Driver.shoppingCart = pPending.getOrder(user);
-					pPending.deleteOrder(user);
+					if (pPending.getOrderStatus(user) == 1) {
+						Driver.shoppingCart.clear();
+						Driver.shoppingCart.addAll(pPending.getOrder(user));
+						pPending.deleteOrder(user);
+					}
 				}
 				Driver.setCurrentAccount(user);
 				Driver.newChoice(3);
