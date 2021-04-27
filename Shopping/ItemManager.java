@@ -27,7 +27,7 @@ public class ItemManager implements ActionListener {
 	private String description;
 	private int stock;
 	private JPanel panel;
-	private JTextField tsearchBar, tquantity, tprice, titems, itemDisplay;
+	private JTextField tsearchBar, tquantity, tprice, titems, itemDisplay, adding, deleting;
 	private JButton logout, newItem, search, delete, confirm, add;
 	private JComboBox choice;
 	String searching;
@@ -78,6 +78,7 @@ public class ItemManager implements ActionListener {
 		panel.add(tsearchBar);
 		tsearchBar.setBounds(250,300,475,60);
 		tsearchBar.addActionListener(this);
+		
 
 	}
 	public void find(String searchQuery) {
@@ -141,8 +142,14 @@ public class ItemManager implements ActionListener {
 		
 		if(e.getSource() == search) {
 			
-			if(tsearchBar.getText().replaceAll("\\s+","").equals("")) {
-				
+			if(tsearchBar.getText() == item) {
+				if(e.getSource() == "Add") {
+					
+					addItems(tsearchBar.getText());
+					
+				} else if(e.getSource() == "Delete") {
+					deleteItem(tsearchBar.getText());
+				} 
 			}
 		}
 	
@@ -160,13 +167,7 @@ public class ItemManager implements ActionListener {
 			Driver.newChoice(6);
 
 		}
-		if(e.getSource() == "Add") {
-			
-			addItems(itemSearch);
-			
-		} else if(e.getSource() == "Delete") {
-			deleteItem(item);
-		} 
+		
 
 	}
 }
