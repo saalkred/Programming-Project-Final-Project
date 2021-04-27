@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -18,27 +19,21 @@ import DB.Item;
 import DB.PostgresAccounts;
 import main.Driver;
 import DB.PostgresPending;
-import gui.BankAccount;
-import gui.BankPanel.ButtonListener;
 
 public class PendingOrders implements ActionListener {
-	private JFrame frame;
-	private JPanel panel;
-	private JButton logout, confirm, skip;
-	private JComboBox choice, itemList;
-	JComboBox items;
+	private JPanel panel, innerPanel, oPanel1, oPanel2, oPanel3, oPanel4, oPanel5, oPanel6;
+	private JButton logout, oButton1, oButton2, oButton3, oButton4, oButton5, oButton6;
+	private JComboBox choice;
+	
+	private ArrayList<String> pendingList = new ArrayList<String>();
+	
+	private PostgresPending pending = new PostgresPending();
+	private PostgresAccounts pAccount = new PostgresAccounts();
 
-	public void displayPanel(JFrame frame) {
-		frame.add(panel);
-	}
 	public PendingOrders() {
-
-
 		panel= new JPanel();
-		frame= new JFrame();
-		frame.setSize(1200,850);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(panel);
+		panel.setBounds(0, 0, 1200,850);
+		panel.setLayout(new GridBagLayout());
 
 		JLabel title = new JLabel("Pending Orders");
 		title.setBounds(400, 10, 1200, 100);
@@ -46,82 +41,134 @@ public class PendingOrders implements ActionListener {
 		title.setFont(new Font(null, Font.BOLD,55));
 
 		ArrayList<String> optionsAL = new ArrayList<>();
-		//if(PostgresAccounts.getAccount("user").getType() == 2) {
-		//	optionsAL.add("Pending Orders");
-		//	optionsAL.add("Item Manager");
-		//} else if (PostgresAccounts.getAccount("user").getType() == 3) {
-		//	optionsAL.add("Pending Orders");
-		//	optionsAL.add("Item Manager");
-		//}
-		optionsAL.add("Shopping Cart");
+		optionsAL.add("Login");
+		optionsAL.add("Shopping");
 		optionsAL.add("Pending Orders");
 		optionsAL.add("Item Manager");
-
+		
 		String[] options = new String[optionsAL.size()];
 		for(int i = 0; i < optionsAL.size(); i++) {
 			options[i] = optionsAL.get(i);
 		}
 
-		ArrayList<String> username = PostgresPending.getPendingList(); //TODO: null pointer exception - need to fix
-		String[] items = new String[username.size()];
+		choice = new JComboBox(options);
+		choice.setSelectedIndex(0);
+		panel.add(choice);
+		choice.setBounds(100, 50, 150, 25);
+		choice.addActionListener(this);
 
+		pendingList = pending.getPendingList();
+		
+		for (int i = 0; i < pendingList.size(); i++) {
+			if (pending.getOrderStatus(pendingList.get(i)) == 1) {
+				pendingList.remove(i);
+				i--;
+			}
+		}
 
-		for(int i = 0; i < username.size(); i++) {
-			items[i] = username.get(i);
-
-			//okay let think this through. what do I want? 
-
-			// I want to be able to fill the JComboBox with the 6 different order slots
-			//there is a method called getOrder that gets the items from the order, and takes in a username parameter
-			//there is a method called getPendingList that gives the usernames of the pending orders
-			//I want to give the usernames to getOrder, and then the getOrder to JComboBox
-			//the problems come in with type mismatches. 
-			//ah, I can use toArray on an ArrayList to hopefully make it compatible with JComboBox
+		innerPanel = new JPanel();
+		innerPanel.setLayout(new GridLayout(2,3));
+		innerPanel.setBounds(200, 150, 800, 600);
+		
+		
+		oPanel1 = new JPanel();
+		oPanel1.setLayout(new GridLayout(3, 1));
+		oPanel2 = new JPanel();
+		oPanel2.setLayout(new GridLayout(3, 1));
+		oPanel3 = new JPanel();
+		oPanel3.setLayout(new GridLayout(3, 1));
+		oPanel4 = new JPanel();
+		oPanel4.setLayout(new GridLayout(3, 1));
+		oPanel5 = new JPanel();
+		oPanel5.setLayout(new GridLayout(3, 1));
+		oPanel6 = new JPanel();
+		oPanel6.setLayout(new GridLayout(3, 1));
+		
+		
+		oButton1 = new JButton("Confirm");
+		oButton1.addActionListener(this);
+		oPanel1.add(oButton1);
+		
+		oButton2 = new JButton("Confirm");
+		oButton2.addActionListener(this);
+		oPanel2.add(oButton2);
+		
+		oButton3 = new JButton("Confirm");
+		oButton3.addActionListener(this);
+		oPanel3.add(oButton3);
+		
+		oButton4 = new JButton("Confirm");
+		oButton4.addActionListener(this);
+		oPanel4.add(oButton4);
+		
+		oButton5 = new JButton("Confirm");
+		oButton5.addActionListener(this);
+		oPanel5.add(oButton5);
+		
+		oButton6 = new JButton("Confirm");
+		oButton6.addActionListener(this);
+		oPanel6.add(oButton6);
+		
+		
+		Font orderFont = new Font("orderFont", Font.BOLD, 20);
+		
+		
+		JLabel order1 = new JLabel("Order 1: " + pendingList.get(0));
+		order1.setFont(orderFont);
+		oPanel1.add(order1);
+		
+		JLabel order2 = new JLabel("Order 2: " + pendingList.get(1));
+		order2.setFont(orderFont);
+		oPanel2.add(order2);
+		
+		JLabel order3 = new JLabel("Order 3: " + pendingList.get(2));
+		order3.setFont(orderFont);
+		oPanel3.add(order3);
+		
+		JLabel order4 = new JLabel("Order 4: " + pendingList.get(3));
+		order4.setFont(orderFont);
+		oPanel4.add(order4);
+		
+		JLabel order5 = new JLabel("Order 5: " + pendingList.get(4));
+		order5.setFont(orderFont);
+		oPanel5.add(order5);
+		
+		JLabel order6 = new JLabel("Order 6: " + pendingList.get(5));
+		order6.setFont(orderFont);
+		oPanel6.add(order6);
+		
+		if (pending.getOrderStatus(pendingList.get(0)) == 3) {
+			oPanel1.add(new JLabel("CONFIRMED"));
 		}
 		
-
-
-		//how will the gui work? 
-		//so theoretically, I'd like to have the checkbox tied to the combobox somehow. when certain 
-		//item is selected, it will have the check option, and when it's checked, it will 
-		//probably ask for confirmation, and then delete the item from pending orders with deleteOrders
+		if (pending.getOrderStatus(pendingList.get(1)) == 3) {
+			oPanel2.add(new JLabel("CONFIRMED"));
+		}
 		
-		//yknow, instead of this checkbox thing, I might just have it give orders one by one, then 
-		//have multiple buttons. one that says "process order" which will trigger it to delete 
-		//the pending order, and one that says "skip"
+		if (pending.getOrderStatus(pendingList.get(2)) == 3) {
+			oPanel3.add(new JLabel("CONFIRMED"));
+		}
 		
-		confirm = new JButton("Confirm Order");
-		skip = new JButton("Skip");
-		confirm.addActionListener(e);
+		if (pending.getOrderStatus(pendingList.get(3)) == 3) {
+			oPanel4.add(new JLabel("CONFIRMED"));
+		}
 		
-		JLabel order1 = new JLabel("Order 1");
-		JLabel order2 = new JLabel("Order 2");
-		JLabel order3 = new JLabel("Order 3");
-		JLabel order4 = new JLabel("Order 4");
-		JLabel order5 = new JLabel("Order 5");
-		JLabel order6 = new JLabel("Order 6");
+		if (pending.getOrderStatus(pendingList.get(4)) == 3) {
+			oPanel5.add(new JLabel("CONFIRMED"));
+		}
+		
+		if (pending.getOrderStatus(pendingList.get(5)) == 3) {
+			oPanel6.add(new JLabel("CONFIRMED"));
+		}
+		
+		innerPanel.add(oPanel1);
+		innerPanel.add(oPanel2);
+		innerPanel.add(oPanel3);
+		innerPanel.add(oPanel4);
+		innerPanel.add(oPanel5);
+		innerPanel.add(oPanel6);
 
-		panel.setLayout(new GridLayout(2,6));
-		panel.add(order1);
-		panel.add(order2);
-		panel.add(order3);
-		panel.add(order4);
-		panel.add(order5);
-		panel.add(order6);
-		panel.add(confirm);
-		panel.add(skip);
-		
-		
-		
-		itemList = new JComboBox(items);
-		itemList.setSelectedIndex(2); //this might change
-		panel.add(itemList);
-		itemList.setBounds(500, 500, 150, 50);
-		itemList.addActionListener(this);
-		panel.setLayout(null);
-
-
-
+		panel.add(innerPanel);
 
 		choice = new JComboBox(options);
 		choice.setSelectedIndex(1);
@@ -134,12 +181,10 @@ public class PendingOrders implements ActionListener {
 		panel.add(logout);
 		logout.setBounds(950, 50, 150, 25);
 		logout.addActionListener(this);
-
-		frame.setVisible(true);
-
-
 	}
+	
 	public void addPanel(JFrame frame) {
+		choice.setSelectedIndex(2);
 		frame.add(panel);
 	}
 
@@ -147,73 +192,91 @@ public class PendingOrders implements ActionListener {
 		frame.remove(panel);
 	}
 
-
-
-
-
 	public void actionPerformed(ActionEvent e) {
-		
-		
 		if(e.getSource() == choice) {
-			int i = choice.getSelectedIndex();
-			if(i == 0) {
-
-
-
-				/*
-				newChoice =
-				0 - Login
-				1 - Create Account Customer
-				2 - Create Account Employee
-				3 - Shopping
-				4 - Item Manager
-				5 - Pending Orders
-				6 - Logout (leads back to Login page)
-				Driver.getUsername();
-				Driver.setUsername();
-
-				 */
-				
-				
-				Driver.newChoice(3);
-
-			} else if(i == 1) {
-
+			int index = choice.getSelectedIndex();
+			switch (index) {
+				case 0:
+					Driver.newChoice(0);
+					break;
+				case 1:
+					Driver.newChoice(3);
+					break;
+				case 2:
+					Driver.newChoice(5);
+					break;
+				case 3:
+					Driver.newChoice(4);
+					break;
+			}
+		}
+		
+		if (e.getSource() == oButton1) {
+			if (pending.getOrderStatus(pendingList.get(0)) != 3) {
+				pending.setOrderStatus(pendingList.get(0), 3);
+				oPanel1.add(new JLabel("CONFIRMED"));
 				Driver.newChoice(5);
-
-			} else if (i == 2) {
-
-				Driver.newChoice(4);
-
+				Driver.refresh();
 			}
 		}
-		if(e.getSource() == itemList) {
-			int j = itemList.getSelectedIndex();
-			
-			if(j==0) {
-				
+		
+		if (e.getSource() == oButton2) {
+			if (pending.getOrderStatus(pendingList.get(1)) != 3) {
+				pending.setOrderStatus(pendingList.get(1), 3);
+				oPanel2.add(new JLabel("CONFIRMED"));
+				Driver.newChoice(5);
+				Driver.refresh();
 			}
-			
 		}
+		
+		if (e.getSource() == oButton3) {
+			if (pending.getOrderStatus(pendingList.get(2)) != 3) {
+				pending.setOrderStatus(pendingList.get(2), 3);
+				oPanel3.add(new JLabel("CONFIRMED"));
+				Driver.newChoice(5);
+				Driver.refresh();
+			}
+		}
+		
+		if (e.getSource() == oButton4) {
+			if (pending.getOrderStatus(pendingList.get(3)) != 3) {
+				pending.setOrderStatus(pendingList.get(3), 3);
+				oPanel4.add(new JLabel("CONFIRMED"));
+				Driver.newChoice(5);
+				Driver.refresh();
+			}
+		}
+		
+		if (e.getSource() == oButton5) {
+			if (pending.getOrderStatus(pendingList.get(4)) != 3) {
+				pending.setOrderStatus(pendingList.get(4), 3);
+				oPanel5.add(new JLabel("CONFIRMED"));
+				Driver.newChoice(5);
+				Driver.refresh();
+			}
+		}
+		
+		if (e.getSource() == oButton6) {
+			if (pending.getOrderStatus(pendingList.get(5)) != 3) {
+				pending.setOrderStatus(pendingList.get(5), 3);
+				oPanel6.add(new JLabel("CONFIRMED"));
+				Driver.newChoice(5);
+				Driver.refresh();
+			}
+		}
+		
+		
 		if(e.getSource() == logout) { // Log out the user
 
 			Driver.newChoice(6);
 
 		}
-		 
-		        String s = e.getActionCommand();
-		        if (s.equals("Confirm Order")) {
-		          Item selectedItem =  (Item) itemList.getItemAt(j); //TODO: Rework this to get the selected item
-		          selectedItem.deleteOrder(username.getOrder()); //TODO: this also obviously doesn't work.
-		          j++; //TODO: not this, but want something that moves to next order
-		        }
-		        else if (s.equals("Skip")){
-		            j++;
-		        
-		    }
-			
-		}
+
+
 
 	}
+
+}
+
 
 
